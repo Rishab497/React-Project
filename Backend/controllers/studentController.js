@@ -21,4 +21,17 @@ const getStudents = async (req, res) => {
     }
 };
 
-module.exports = { addStudent, getStudents };
+const updateStudent = async (req, res) => {
+try {
+const updated = await Student.findByIdAndUpdate(req.params.id, req.body, {
+new: true,
+runValidators: true,
+});
+if (!updated)
+return res.status(404).json({ message: "Student not found" });
+res.status(200).json(updated);
+} catch (err) {
+res.status(400).json({ message: err.message });
+}
+};
+module.exports = { addStudent, getStudents, updateStudent };
